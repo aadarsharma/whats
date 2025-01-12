@@ -95,13 +95,13 @@ export function UpdateScoresDialog({
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent
-                className="max-w-screen-md [&>button:last-child]:hidden"
+                className="max-w-[90%] sm:max-w-[80%] md:max-w-screen-sm [&>button:last-child]:hidden"
                 aria-describedby="dialog-description"
             >
                 <DialogHeader>
                     <div className="flex items-center justify-between">
-                        <DialogTitle className="text-lg md:text-xl">Update scores</DialogTitle>
-                        <Image src="/html5.svg" alt="HTML5" width={40} height={40} />
+                        <DialogTitle className="text-base sm:text-lg md:text-xl">Update scores</DialogTitle>
+                        <Image src="/html5.svg" alt="HTML5" width={30} height={30} className="sm:w-[35px] sm:h-[35px] md:w-[40px] md:h-[40px]" />
                     </div>
                 </DialogHeader>
                 <div id="dialog-description" className="sr-only">
@@ -109,89 +109,41 @@ export function UpdateScoresDialog({
                 </div>
                 <Card>
                     <CardContent className="space-y-4 pt-4">
-                    
-                    <div className="flex items-center justify-between">
-                        <Label htmlFor="rank" className="flex-shrink-0 text-sm md:text-base">
-                            <span className="flex items-center gap-2">
-                                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-800 text-white text-sm">
-                                    1
-                                </span>
-                                Update your Rank
-                            </span>
-                        </Label>
-                        <Input
-                            id="rank"
-                            type="number"
-                            value={scores.rank}
-                            onChange={(e) => handleChange('rank', Number(e.target.value))}
-                            onBlur={() => handleBlur('rank')}
-                            className={`w-[200px] ${touched.rank && errors.rank ? "border-red-500" : ""}`}
-                        />
-                    </div> 
-            
-                        {touched.rank && errors.rank && (
-                            <div className="flex justify-end">
-                                <p className="text-xs text-red-500 mr-1">{errors.rank}</p>
-                            </div>
-                        )}
-                      
-                    
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="percentile" className="flex-shrink-0 text-sm md:text-base">
-                                    <span className="flex items-center gap-2">
-                                        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-800 text-white text-sm">
-                                            2
+                        {['rank', 'percentile', 'currentScore'].map((field, index) => (
+                            <div key={field} className="space-y-2">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                    <Label htmlFor={field} className="text-xs sm:text-sm md:text-base mb-2 sm:mb-0">
+                                        <span className="flex items-center gap-2">
+                                            <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-800 text-white text-xs sm:text-sm">
+                                                {index + 1}
+                                            </span>
+                                            Update your {field.charAt(0).toUpperCase() + field.slice(1)}
+                                            {field === 'currentScore' && " (out of 15)"}
                                         </span>
-                                        Update your Percentile
-                                    </span>
-                                </Label>
-                                <Input
-                                    id="percentile"
-                                    type="number"
-                                    value={scores.percentile}
-                                    onChange={(e) => handleChange('percentile', Number(e.target.value))}
-                                    onBlur={() => handleBlur('percentile')}
-                                    className={`w-[200px] ${touched.percentile && errors.percentile ? "border-red-500" : ""}`}
-                                />
+                                    </Label>
+                                    <Input
+                                        id={field}
+                                        type="number"
+                                        value={scores[field as keyof UpdateScoreData]}
+                                        onChange={(e) => handleChange(field as keyof UpdateScoreData, Number(e.target.value))}
+                                        onBlur={() => handleBlur(field as keyof UpdateScoreData)}
+                                        className={`w-full sm:w-[150px] md:w-[200px] ${touched[field as keyof typeof touched] && errors[field as keyof typeof errors] ? "border-red-500" : ""}`}
+                                    />
+                                </div>
+                                {touched[field as keyof typeof touched] && errors[field as keyof typeof errors] && (
+                                    <div className="flex justify-end">
+                                        <p className="text-xs text-red-500">{errors[field as keyof typeof errors]}</p>
+                                    </div>
+                                )}
                             </div>
-                            {touched.percentile && errors.percentile && (
-                                <div className="flex justify-end">
-                                    <p className="text-xs text-red-500">{errors.percentile}</p>
-                                </div>
-                            )}
-     
-
-                        <div className="flex items-center justify-between">
-                            <Label htmlFor="score" className="flex-shrink-0 text-sm md:text-base">
-                                <span className="flex items-center gap-2">
-                                    <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-800 text-white text-sm">
-                                        3
-                                    </span>
-                                    Update your Current Score (out of 15)
-                                </span>
-                            </Label>
-                            <Input
-                                id="score"
-                                type="number"
-                                value={scores.currentScore}
-                                onChange={(e) => handleChange('currentScore', Number(e.target.value))}
-                                onBlur={() => handleBlur('currentScore')}
-                                className={`w-[200px] ${touched.currentScore && errors.currentScore ? "border-red-500" : ""}`}
-                            />
-                        </div>
-                            {touched.currentScore && errors.currentScore && (
-                                <div className="flex justify-end">
-                                    <p className="text-xs text-red-500">{errors.currentScore}</p>
-                                </div>
-                            )}
-                        
+                        ))}
                     </CardContent>
                 </Card>
-                <div className="flex justify-end gap-4 mt-4">
-                    <Button className="border border-black" variant="outline" onClick={() => onOpenChange(false)}>
+                <div className="flex flex-col sm:flex-row justify-end gap-4 mt-4">
+                    <Button className="border border-black w-full sm:w-auto" variant="outline" onClick={() => onOpenChange(false)}>
                         cancel
                     </Button>
-                    <Button onClick={handleSave} className="bg-blue-900 hover:bg-blue-500 px-6">
+                    <Button onClick={handleSave} className="bg-blue-900 hover:bg-blue-500 px-6 w-full sm:w-auto">
                         save →
                     </Button>
                 </div>
@@ -199,4 +151,3 @@ export function UpdateScoresDialog({
         </Dialog>
     )
 }
-
