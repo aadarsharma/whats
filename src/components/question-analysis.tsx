@@ -20,7 +20,7 @@ export function QuestionAnalysis({ correctAnswers, totalQuestions }: QuestionAna
       </CardHeader>
       <CardContent>
         <p className="text-gray-600 mb-6">
-          You scored {correctAnswers} question correct out of {totalQuestions}.{' '}
+          <span className="font-bold">You scored {correctAnswers} question correct out of {totalQuestions}</span>.{' '}
           {percentage < 70 ? 'However it still needs some improvements' : 'Great job!'}
         </p>
         <div className="flex justify-center">
@@ -31,15 +31,15 @@ export function QuestionAnalysis({ correctAnswers, totalQuestions }: QuestionAna
                 cy="96"
                 r="70"
                 stroke="#eee"
-                strokeWidth="12"
+                strokeWidth="28"
                 fill="transparent"
               />
               <circle
                 cx="96"
                 cy="96"
                 r="70"
-                stroke="#4C6FFF"
-                strokeWidth="12"
+                stroke="#60A5FA"
+                strokeWidth="28"
                 fill="transparent"
                 strokeDasharray={circumference}
                 strokeDashoffset={offset}
@@ -47,7 +47,7 @@ export function QuestionAnalysis({ correctAnswers, totalQuestions }: QuestionAna
               />
             </svg>
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-              <div className="text-4xl font-bold text-blue-600">{percentage.toFixed(0)}%</div>
+              <div className="text-4xl font-bold text-blue-600">🎯</div>
             </div>
           </div>
         </div>
