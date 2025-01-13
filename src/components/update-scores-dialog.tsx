@@ -107,7 +107,7 @@ export function UpdateScoresDialog({
                 <div id="dialog-description" className="sr-only">
                     Update your skill test scores including rank, percentile, and current score.
                 </div>
-                <Card>
+                <Card className="border-hidden">
                     <CardContent className="space-y-4 pt-4">
                         {['rank', 'percentile', 'currentScore'].map((field, index) => (
                             <div key={field} className="space-y-2">
@@ -127,7 +127,7 @@ export function UpdateScoresDialog({
                                         value={scores[field as keyof UpdateScoreData]}
                                         onChange={(e) => handleChange(field as keyof UpdateScoreData, Number(e.target.value))}
                                         onBlur={() => handleBlur(field as keyof UpdateScoreData)}
-                                        className={`w-full sm:w-[150px] md:w-[200px] ${touched[field as keyof typeof touched] && errors[field as keyof typeof errors] ? "border-red-500" : ""}`}
+                                        className={`w-full sm:w-[150px] md:w-[200px] border-cyan-600 ${touched[field as keyof typeof touched] && errors[field as keyof typeof errors] ? "border-red-500" : ""}`}
                                     />
                                 </div>
                                 {touched[field as keyof typeof touched] && errors[field as keyof typeof errors] && (
